@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssm.dao.ProductDao">
+	
+	<sql id="sql_userlab">
+		ID,name,price,number,sort,imgUUID
+	</sql>
+
+	<!-- 插入商品数据 -->
+	<insert id="add" parameterType="ssm.pojos.product.Product" useGeneratedKeys="true" keyProperty="ID">
+		insert into t_product(<include refid="sql_userlab"/>)
+		values
+		(#{ID},#{name},#{price},#{number},#{sort},#{imgUUID})
+	</insert>
+	
+	<!-- 根据sort查询用商品-->
+	<select id="queryBySort" resultType="ssm.pojos.product.Product" parameterType="int">
+		select <include refid="sql_userlab"/> from t_product
+		<where>
+			sort=#{sort}
+		</where>
+	</select>
+	
+	<!-- 查找所有商品 -->
+	<select id="query" resultType="ssm.pojos.product.Product">
+		select <include refid="sql_userlab"/> from t_product
+	</select>
+	
+	<!-- 根据Id查询商品-->
+	<select id="queryById" resultType="ssm.pojos.product.Product" parameterType="int">
+		select <include refid="sql_userlab"/> from t_product
+		<where>
+			ID=#{id}
+		</where>
+	</select>
+	
+	<!-- 根据proId修改数量 -->
+	<update id="changeNumByProId">
+		update t_product
+		<set>
+			t_product.number=#{num},
+		</set>
+		<where>
+			iD=#{proId} 
+		</where>
+	</update>
+	
+</mapper>

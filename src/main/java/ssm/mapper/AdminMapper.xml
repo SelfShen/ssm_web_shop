@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssm.dao.AdminDao">
+	
+	<sql id="sql_userlab">
+		Id,name,password
+	</sql>
+	
+	<sql id="sql_users">
+		ID,name,password
+	</sql>
+	
+	<sql id="sql_product">
+		ID,name,price,number,sort,imgUUID
+	</sql>
+
+	<!-- 插入用户数据 -->
+	<insert id="sign" parameterType="ssm.pojos.admin.Admin">
+		insert into t_admin(<include refid="sql_userlab"/>)
+		values
+		(#{Id},#{name},#{password})
+	</insert>
+	
+	<!-- 根据用户Id查询用户 -->
+	<select id="login" resultType="ssm.pojos.admin.Admin" parameterType="Integer">
+		select <include refid="sql_userlab"/> from t_admin
+		<where>
+			Id=#{Id}
+		</where>
+	</select>
+	
+	<!-- 所有用户 -->
+	<select id="getUser" resultType="ssm.pojos.user.User">
+		select <include refid="sql_users"/> from t_user
+	</select>
+	
+	<!-- 所有商品 -->
+	<select id="getProduct" resultType="ssm.pojos.product.Product">
+		select <include refid="sql_product"/> from t_product
+	</select>
+
+</mapper>

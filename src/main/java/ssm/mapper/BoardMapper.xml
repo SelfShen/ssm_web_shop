@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssm.dao.BoardDao">
+	
+	<sql id="sql_question">
+		id,userId,question,proId
+	</sql>
+	
+	<sql id="sql_answer">
+		question_id,user_id,answer,pro_id
+	</sql>
+
+	<!-- 插入问题数据 -->
+	<insert id="addQuestion" parameterType="ssm.pojos.board.Question">
+		insert into t_message_board(<include refid="sql_question"/>)
+		values
+		(#{id},#{userId},#{question},#{proId})
+	</insert>
+	
+	<!-- 插入回答数据 -->
+	<insert id="addAnswer" parameterType="ssm.pojos.board.Answer">
+		insert into t_message_answer(<include refid="sql_answer"/>)
+		values
+		(#{questionId},#{userId},#{answer},#{proId})
+	</insert>
+	
+	<!-- 根据proId所有问题和回答 -->
+	<select id="queryQAByProId" resultType="ssm.pojos.board.Question" parameterType="Integer">
+		select <include refid="sql_question"/> from t_message_board
+		<where>
+			proId=#{proId}
+		</where>
+	</select>
+	
+	<!-- 所有问题和回答 -->
+	<select id="queryQAAll" resultType="ssm.pojos.board.Question">
+		select <include refid="sql_question"/> from t_message_board
+	</select>
+
+</mapper>

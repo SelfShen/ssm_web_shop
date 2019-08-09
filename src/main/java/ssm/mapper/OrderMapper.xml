@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="ssm.dao.OrderDao">
+	
+	<sql id="sql_order">
+		Id,order_no,shop_id,order_status,product_count,product_total,order_total,order_create_time,order_settle_time
+	</sql>
+
+	<!-- 插入订单数据 -->
+	<insert id="add" parameterType="ssm.pojos.order.Order">
+		insert into t_order(<include refid="sql_order"/>)
+		values
+		(#{Id},#{order_no},#{shop_id},#{order_status},#{product_count},
+		#{product_total},#{order_total},#{order_create_time},#{order_settle_time})
+	</insert>
+	
+	<!-- 所有订单 -->
+	<select id="query" resultType="ssm.pojos.order.Order">
+		select <include refid="sql_order"/> from t_order
+	</select>
+
+</mapper>
